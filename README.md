@@ -1,23 +1,15 @@
 Bu proje, şirketlerin çalışanlarını ve departmanlarını yönetmek amacıyla geliştirilmiş bir ASP.NET Core MVC uygulamasıdır.
 
 Teknolojiler
-ASP.NET Core MVC: Uygulama, ASP.NET Core MVC framework'ü kullanılarak geliştirilmiştir. Bu framework, güçlü bir web uygulaması geliştirme altyapısı sunar ve Model-View-Controller (MVC) mimarisini kullanarak, iş mantığını (model), kullanıcı arayüzünü (view) ve uygulama akışını (controller) birbirinden ayırır.
+ASP.NET Core MVC: Uygulama, ASP.NET Core MVC framework'ü kullanılarak geliştirilmiştir.
 
-Entity Framework Core (EF Core): Veritabanı işlemleri için Entity Framework Core (EF Core) kullanılmıştır. Bu ORM (Object-Relational Mapping) aracı, veritabanı işlemleriyle ilgili işleri kolaylaştırarak, veritabanı nesnelerini .NET sınıflarına dönüştürür. Proje, Code-First yaklaşımını benimseyerek veritabanı yapısını kod üzerinden tanımlar.
+Entity Framework Core (EF Core): Veritabanı işlemleri için Entity Framework Core (EF Core) kullanılmıştır.
 
 Identity Framework: Kullanıcı kimlik doğrulaması ve rol yönetimi için ASP.NET Core Identity kullanılmıştır. Bu framework, kullanıcı kayıt işlemleri, giriş, parola sıfırlama gibi işlemleri yönetir ve kullanıcıları çeşitli rollere ayırarak güvenli erişim sağlar.
-
-Session Management: Kullanıcı bilgileri, özellikle logo gibi kullanıcıya özel veriler, Session yönetimi ile saklanmaktadır. Bu sayede, kullanıcı oturumu boyunca kişisel veriler erişilebilir olur.
-
-Bootstrap: Kullanıcı arayüzü tasarımı için Bootstrap CSS framework'ü kullanılmıştır. Bu sayede duyarlı (responsive) tasarımlar elde edilmiş ve uygulamanın farklı cihazlarda uyumlu çalışması sağlanmıştır.
-
-JavaScript & jQuery: Dinamik işlemler ve kullanıcı etkileşimleri için JavaScript ve jQuery kullanılmıştır. Bu, kullanıcıların sayfa yenilemeden çeşitli işlemler yapabilmesini sağlar.
 
 SQL Server: Veritabanı olarak Microsoft SQL Server kullanılmıştır. Veritabanı tasarımı ve veri yönetimi için EF Core üzerinden SQL Server ile entegrasyon sağlanmıştır.
 
 Dependency Injection (DI): ASP.NET Core'un sağladığı Dependency Injection (DI) altyapısı kullanılarak, uygulamanın bağımlılıkları yönetilmiş ve sistemin test edilebilirliği artırılmıştır.
-
-Middleware: Kimlik doğrulama, hata yönetimi ve diğer süreçler için Middleware yapıları kullanılmıştır. Bu, uygulamanın esnekliğini artırarak, farklı işlemlerin merkezi bir noktada yönetilmesini sağlar.
 
 
 Admin Paneli Özellikleri
