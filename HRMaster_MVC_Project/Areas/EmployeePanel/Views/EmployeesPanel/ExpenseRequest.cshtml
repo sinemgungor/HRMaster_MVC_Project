@@ -1,0 +1,230 @@
+﻿@using HRMaster_MVC_Project.Areas.EmployeePanel.Models.ViewModels
+@using HRMaster_MVC_Project.Models.Enums
+@section Styles {
+    <link href="~/css/RequestPage.css" rel="stylesheet" />
+}
+@model ExpenseRequestPageVM
+
+@if (ViewData["AddedExpense"] is not null)
+{
+    <div class="row col-9">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-check"></i> İşlem başarılı!</h5>
+            @ViewData["AddedExpense"]
+        </div>
+    </div>
+}
+@if (ViewData["AddedExpenseError"] is not null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-ban"></i> Uyarı!</h5>
+        @ViewData["AddedExpenseError"]
+    </div>
+}
+@* @if (ViewData["AddedExpenseError"] is not null)
+{
+    <div class="alert-error">
+        <h1>@ViewData["AddedExpenseError"]</h1>
+    </div>
+} *@
+<!-- Card 2 -->
+<div class="col-md-4 mb-3">
+    <!-- Modal'ı açmak için kullanılan buton -->
+    <button class="btn btn-primary" style="cursor: pointer;" data-toggle="modal" data-target="#modal2">
+        Harcama Talebi Oluştur
+    </button>
+</div>
+<!-- Cancel Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">İptal İşlemi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bu harcama talebini iptal etmek istediğinize emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-outline-light" id="cancelConfirmButton">Talebi İptal Et</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal2Label">Harcama Talebi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="ExpenseRequest" method="post" enctype="multipart/form-data">
+                    <!-- Genel Hata Mesajları -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- Fiş Alanı -->
+                    <div class="form-group border rounded p-3 mt-3">
+                        <span asp-validation-for="AddExpenseRequestVM.FilePath" class="text-danger"></span> <br />
+                        <label asp-for="AddExpenseRequestVM.FilePath">Fiş</label>
+                        <div class="input-group">
+                            <input asp-for="AddExpenseRequestVM.FilePath" type="file" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Harcama Türü -->
+                    <div class="form-group border rounded p-3 mt-3">
+                        <label asp-for="AddExpenseRequestVM.ExpenseType" class="form-label">Harcama Türü</label>
+                        <select asp-for="AddExpenseRequestVM.ExpenseType" class="form-control" asp-items="Html.GetEnumSelectList<ExpenseType>()"></select>
+                    </div>
+
+                    <!-- Miktar ve Para Birimi -->
+                    <div class="col-12 border rounded p-3 mt-3">
+                        <span asp-validation-for="AddExpenseRequestVM.Amount" class="text-danger"></span> <br />
+                        <label asp-for="AddExpenseRequestVM.Amount" class="font-weight-bold">Miktar</label>
+                        <div class="input-group">
+                            <input asp-for="AddExpenseRequestVM.Amount" type="number" class="form-control" id="amount" placeholder="Miktar giriniz">
+                            <div class="input-group-append">
+                                <select asp-for="AddExpenseRequestVM.Currency" class="form-control" asp-items="Html.GetEnumSelectList<Currency>()"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Harcama Talepleri</h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" id="tableSearch" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" id="searchButton"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap" id="advanceRequestTable">
+                    <thead>
+                        <tr>
+                            <th>Çalışan</th>
+                            <th>Harcama Türü</th>
+                            <th>Harcama Tutarı</th>
+                            <th>Talep Tarihi</th>
+                            <th>Cevap Tarihi</th>
+                            <th>Onay Durumu</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.ExpenseRequests == null || !Model.ExpenseRequests.Any())
+                        {
+                            <tr>
+                                <td colspan="8">"Henüz bir harcama talebiniz bulunmamaktadır!"</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.ExpenseRequests)
+                            {
+                                <tr>
+                                    <td>@item.Name @item.Surname</td>
+                                    <td class="type">@item.ExpenseType.GetDisplayName()</td>
+                                    <td>@item.Amount @item.Currency</td>
+                                    <td>@item.RequestDate</td>
+                                    <td>
+                                        @if (item.ResponseDate != null)
+                                        {
+                                            @item.ResponseDate
+                                        }
+                                        else
+                                        {
+                                            <span>Yanıt Bekleniyor!</span>
+                                        }
+                                    </td>
+                                    <td class="approval-status">
+                                        @if (item.ApprovalStatus == ApprovalStatus.Approved)
+                                        {
+                                            <div class="status bg-gradient-success"> @item.ApprovalStatus.GetDisplayName()</div>
+                                        }
+                                        else if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <div class="status bg-gradient-info"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                        else if (item.ApprovalStatus == ApprovalStatus.Rejected)
+                                        {
+                                            <div class="status bg-gradient-danger"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="status bg-gradient-secondary"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        @if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <form asp-action="CancelExpenseRequest" asp-controller="EmployeesPanel" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="@item.ID" />
+                                                <button type="submit" class="btn btn-block btn-outline-danger" onclick="return confirm('İptal etmek istediğinize emin misiniz?');">İptal Et</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-block btn-outline-danger disabled">İptal Et</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<script>
+  
+    let cancelUrl = '@Url.Action("CancelExpenseRequest", "EmployeesPanel")';
+</script>
+
+
+<script src="~/js/approval.js"></script>
+<script src="~/js/harcama.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

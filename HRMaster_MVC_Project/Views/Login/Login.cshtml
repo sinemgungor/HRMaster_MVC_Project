@@ -1,0 +1,66 @@
+﻿@using HRMaster_MVC_Project.Models.ViewModels.LoginViewModel
+@model LoginVM
+@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Log In";
+}
+
+<div class="login-box">
+    <div class="login-logo">
+        <a asp-action="Index" asp-controller="Home"><b>Hero</b>Resources</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Oturumunuzu başlatmak için oturum açın</p>
+
+            <form asp-area="" asp-controller="Login" asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col text-center mt-3">
+                
+                    <a asp-action="Index" asp-controller="Home"><p>Giriş yapmadan devam et</p></a>
+                
+                    <a asp-action="ForgotPassword" asp-controller="Login"> <p>Şifremi unuttum</p></a>
+                
+            </div>
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

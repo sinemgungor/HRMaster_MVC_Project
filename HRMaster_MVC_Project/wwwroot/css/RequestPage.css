@@ -1,0 +1,32 @@
+﻿.status {
+    display: inline-block; /* Butonların aynı hizada olması için */
+    width: 100px; /* İstediğiniz sabit genişlik */
+    height: 28px; /* İstediğiniz sabit yükseklik */
+    line-height: 28px; /* Dikey ortalama için */
+    text-align: center; /* Yazıyı ortalamak için */
+    font-weight: normal; /* Yazı kalınlığını normal yapmak için */
+    font-size: 12px; /* Yazı boyutunu ayarlamak için */
+    padding: 0; /* İç boşlukları sıfırlamak için */
+    border-radius: 5px; /* Köşeleri yuvarlatmak için */
+}
+
+.bg-gradient-info {
+    background-color: #17a2b8; /* Mavi renkte arka plan */
+    color: white; /* Beyaz yazı rengi */
+}
+
+/* Diğer butonlar için de benzer stiller ekleyebilirsiniz */
+.bg-gradient-success {
+    background-color: #28a745; /* Yeşil renkte arka plan */
+    color: white;
+}
+
+.bg-gradient-danger {
+    background-color: #dc3545; /* Kırmızı renkte arka plan */
+    color: white;
+}
+
+.bg-gradient-secondary {
+    background-color: #6c757d; /* Gri renkte arka plan */
+    color: white;
+}

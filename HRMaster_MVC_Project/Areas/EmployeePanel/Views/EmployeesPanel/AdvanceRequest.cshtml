@@ -1,0 +1,240 @@
+﻿@using HRMaster_MVC_Project.Areas.EmployeePanel.Models.ViewModels
+@using HRMaster_MVC_Project.Models.Enums
+@section Styles {
+    <link href="~/css/RequestPage.css" rel="stylesheet" />
+}
+@model AdvanceRequestPageVM
+
+@if (ViewData["AddedAdvanceRequest"] is not null)
+{
+    <div class="row col-9">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-check"></i> İşlem başarılı!</h5>
+            @ViewData["AddedAdvanceRequest"]
+        </div>
+    </div>
+}
+@if (ViewData["AddedAdvanceRequestError"] is not null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-ban"></i> Uyarı!</h5>
+        @ViewData["AddedAdvanceRequestError"]
+    </div>
+}
+
+<div class="col-md-4 mb-3">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal3">
+        Avans Talebi Oluştur
+    </button>
+</div>
+<!-- Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">İptal İşlemi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bu avans talebini iptal etmek istediğinize emin misiniz?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-outline-light" id="cancelConfirmButton">Talebi İptal Et</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal3Label">Avans Talebi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AdvanceRequest" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- TempData bilgisini görünmeyen bir HTML etiketine gömme -->
+                    <div id="tempDataContainer" style="display: none;">@TempData["Salary"]</div>
+
+                    <!-- Avans Türü -->
+                    <div class="form-group border rounded p-3">
+                        <div class="col-12">
+                            <label asp-for="AddAdvanceRequestDTO.AdvanceType" class="font-weight-bold">Avans Türü</label>
+                            <div class="d-flex">
+                                <select asp-for="AddAdvanceRequestDTO.AdvanceType" class="form-control mr-3" asp-items="Html.GetEnumSelectList<AdvanceType>()"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Miktar -->
+                    <div class="col-12 border rounded p-3 mt-3">
+                        <span asp-validation-for="AddAdvanceRequestDTO.Amount" class="text-danger"></span> <br />
+                        <label for="amount" class="font-weight-bold">Miktar</label>
+                        <div class="input-group">
+                            <input asp-for="AddAdvanceRequestDTO.Amount" type="number" class="form-control" placeholder="Miktar giriniz" id="amountInput">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">TRY</span>
+                            </div>
+                        </div>
+                        <!-- Uyarı span'ı ekleyin -->
+                        <span id="amountWarning" class="text-danger" style="display:none;">Miktar maaşın üç katından fazla olamaz.</span>
+                    </div>
+
+                    <!-- Açıklama Alanı -->
+                    <div class="form-group">
+                        <div class="row border rounded p-3 mt-3">
+                            <div class="col-12">
+                                <span asp-validation-for="AddAdvanceRequestDTO.Description" class="text-danger"></span> <br />
+                                <label for="description" class="font-weight-bold">Açıklama (Opsiyonel)</label>
+                                <textarea asp-for="AddAdvanceRequestDTO.Description" class="form-control" placeholder="Açıklama giriniz" maxlength="1000"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary" id="submitButton">Gönder</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Avans Talepleri</h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" id="tableSearch" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" id="searchButton"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap" id="advanceRequestTable">
+                    <thead>
+                        <tr>
+                            <th>Çalışan</th>
+                            <th>Avans Türü</th>
+                            <th>Avans Miktarı</th>
+                            <th>Açıklama</th>
+                            <th>Talep Tarihi</th>
+                            <th>Cevap Tarihi</th>
+                            <th>Onay Durumu</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.AdvanceRequests == null || !Model.AdvanceRequests.Any())
+                        {
+                            <tr>
+                                <td colspan="8">"Henüz bir avans talebiniz bulunmamaktadır!"</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.AdvanceRequests)
+                            {
+                                <tr>
+                                    <td>@item.Name @item.Surname</td>
+                                    <td class="type">@item.AdvanceType.GetDisplayName()</td>
+                                    <td>@item.Amount @item.Currency</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.RequestDate</td>
+                                    <td>
+                                        @if (item.ResponseDate != null)
+                                        {
+                                            @item.ResponseDate
+                                        }
+                                        else
+                                        {
+                                            <span>Yanıt Bekleniyor!</span>
+                                        }
+                                    </td>
+                                    <td class="approval-status">
+                                        @if (item.ApprovalStatus == ApprovalStatus.Approved)
+                                        {
+                                            <div class="status bg-gradient-success"> @item.ApprovalStatus.GetDisplayName()</div>
+                                        }
+                                        else if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <div class="status bg-gradient-info"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                        else if (item.ApprovalStatus == ApprovalStatus.Rejected)
+                                        {
+                                            <div class="status bg-gradient-danger"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="status bg-gradient-secondary"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        @if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <form asp-action="CancelAdvanceRequest" asp-controller="EmployeesPanel" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="@item.ID" />
+                                                <button type="submit" class="btn btn-block btn-outline-danger" onclick="return confirm('İptal etmek istediğinize emin misiniz?');">İptal Et</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-block btn-outline-danger disabled">İptal Et</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<script>
+
+    let cancelUrl = '@Url.Action("CancelAdvanceRequest", "EmployeesPanel")';
+</script>
+<script>
+
+</script>
+
+<script src="~/js/avans.js"></script>
+<script src="~/js/approval.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

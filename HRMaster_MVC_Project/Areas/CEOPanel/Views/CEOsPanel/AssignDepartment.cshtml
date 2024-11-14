@@ -1,0 +1,43 @@
+﻿@using HRMaster_MVC_Project.Areas.CEOPanel.Models.CeoViewModel
+@model AssignDepartmentVM
+
+<div class="container">
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="errorMessage" class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+</div>
+
+
+<div class="container">
+    <form method="post" asp-action="AssignDepartment">
+        <div class="form-group">
+            <div class="form-group">
+                <label class="control-label">Departmanlar</label>
+                <select asp-for="SelectedDepartmentID" class="form-control" asp-items="@Model.Departments"></select>
+                <span asp-validation-for="SelectedDepartmentID" class="text-danger"></span>
+            </div>
+
+
+
+        </div>
+        <input type="hidden" name="EmployeeId" value="@Model.EmployeeID" />
+        <button type="submit" class="btn btn-primary">Departman Ata</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+       
+        setTimeout(function () {
+            $('#successMessage').fadeOut('slow');
+            $('#errorMessage').fadeOut('slow');
+        }, 3000); 
+    });
+</script>

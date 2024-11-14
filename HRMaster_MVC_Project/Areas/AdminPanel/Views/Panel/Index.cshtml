@@ -1,0 +1,68 @@
+﻿@using HRMaster_MVC_Project.Areas.AdminPanel.Models.AdminViewModels
+@model AdminSumVM
+
+<section class="content">
+    @if(TempData["Message"] is not null)
+    {
+        <div class="row col-9">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> Uyarı!</h5>
+                @TempData["Message"]
+            </div>
+        </div>
+    }
+    @if(TempData["UpdMessage"] is not null)
+    {
+        <div class="row col-9">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> İşlem Başarılı!</h5>
+                <p>@TempData["UpdMessage"]</p>
+            </div>
+        </div>
+    }
+
+    @if (TempData["AddedCEO"] != null)
+    {
+        <div class="row col-9">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> İşlem Başarılı!</h5>
+                @TempData["AddedCEO"]
+            </div>
+        </div>
+    }
+
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                <!-- Profile Image -->
+                <div class="card card-primary ">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="img-circle img-fluid img-circle" style="width: 120px; height: 120px; object-fit: cover; margin-top:10px"
+                                 src="/Photos/@Model.PicturePath"
+                                 alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center">@Model.Name @Model.Surname</h3>
+
+                        <p class="text-muted text-center">@Model.Job</p>
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>Adres</b> <a class="float-right">@Model.Address</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Email</b> <a class="float-right">@Model.Email</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Telefon</b> <a class="float-right">@Model.PhoneNumber</a>
+                            </li>
+                        </ul>
+
+                        <a asp-action="AdminDetails" asp-controller="Panel" asp-area="AdminPanel" class="btn btn-primary btn-block"><b>Detay</b></a>
+                    </div>

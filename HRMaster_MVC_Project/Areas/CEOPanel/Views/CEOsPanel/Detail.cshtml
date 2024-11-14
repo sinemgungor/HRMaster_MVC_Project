@@ -1,0 +1,88 @@
+﻿@using HRMaster_MVC_Project.Areas.CEOPanel.Models
+@{
+    ViewData["Title"] = "Yönetici Detayları";
+}
+@model ManagerDetailVM;
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Şirket Yönetim Sistemi</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css.map" />
+</head>
+<body>
+    <header class="bg-light py-3 mb-4">
+        <div class="container">
+            <h1 class="text-center">@ViewData["Title"]</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+                <img src="/Photos/@Model.PicturePath" alt="Yönetici Fotoğrafı" class="img-circle img-fluid"
+                     style="width: 180px; height: 180px; object-fit: cover; margin-top: 10px;">
+            </div>
+            <div class="col-md-8">
+                <dl class="row">
+                    <dt class="col-sm-4">Adı:</dt>
+                    <dd class="col-sm-8">@Model.Name</dd>
+
+                    <dt class="col-sm-4">İkinci Adı:</dt>
+                    <dd class="col-sm-8">@Model.SecondName</dd>
+
+                    <dt class="col-sm-4">Soyadı:</dt>
+                    <dd class="col-sm-8">@Model.Surname</dd>
+
+                    <dt class="col-sm-4">İkinci Soyadı:</dt>
+                    <dd class="col-sm-8">@Model.SecondSurname</dd>
+
+                    <dt class="col-sm-4">Doğum Tarihi:</dt>
+                    <dd class="col-sm-8">@Model.BirthDate</dd>
+
+                    <dt class="col-sm-4">Doğum Yeri:</dt>
+                    <dd class="col-sm-8">@Model.BirthState</dd>
+
+                    <dt class="col-sm-4">TC Kimlik No:</dt>
+                    <dd class="col-sm-8">@Model.IdentityNumber</dd>
+
+                    <dt class="col-sm-4">İşe Giriş Tarihi:</dt>
+                    <dd class="col-sm-8">@Model.HireDate</dd>
+
+                    <dt class="col-sm-4">İşten Çıkış Tarihi:</dt>
+                    <dd class="col-sm-8">@Model.TerminationDate</dd>
+
+
+                    <dt class="col-sm-4">Meslek:</dt>
+                    <dd class="col-sm-8">CEO</dd>
+
+                    <dt class="col-sm-4">Departman:</dt>
+                    <dd class="col-sm-8">Yönetim</dd>
+
+                    <dt class="col-sm-4">Email:</dt>
+                    <dd class="col-sm-8">@Model.Email</dd>
+
+                    <dt class="col-sm-4">Adres:</dt>
+                    <dd class="col-sm-8">@Model.Address</dd>
+
+                    <dt class="col-sm-4">Telefon:</dt>
+                    <dd class="col-sm-8">@Model.PhoneNumber</dd>
+
+                    <dt class="col-sm-4">Maaş:</dt>
+                    <dd class="col-sm-8">@Model.Salary</dd>
+                </dl>
+                
+                <a class="btn btn-secondary" asp-action="Update" asp-controller="CEOsPanel" asp-area="CEOPanel">Bilgilerimi Güncelle</a>
+                <a class="btn btn-primary" asp-action="Index" asp-controller="CEOsPanel" asp-area="CEOPanel">Ana Sayfaya Dön</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script> *@
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+                    

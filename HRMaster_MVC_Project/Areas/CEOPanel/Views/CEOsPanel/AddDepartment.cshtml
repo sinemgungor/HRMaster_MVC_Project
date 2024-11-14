@@ -1,0 +1,44 @@
+﻿@using HRMaster_MVC_Project.Areas.CEOPanel.Models.CeoDTOs
+@model AddDepartmentDTO
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" id="error-message">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" id="success-message">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<div class="container-fluid">
+    <form asp-action="AddDepartment" method="post">
+        <div class="form-group">
+            <label for="DepartmentName">Departman Adı</label>
+            <input type="text" class="form-control" id="DepartmentName" name="DepartmentName" required />
+            <span asp-validation-for="DepartmentName" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Ekle</button>
+    </form>
+
+</div>
+
+
+<script>
+    
+    setTimeout(function () {
+        var errorMessage = document.getElementById('error-message');
+        var successMessage = document.getElementById('success-message');
+
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+
+        if (successMessage) {
+            successMessage.style.display = 'none';
+        }
+    }, 3000);
+</script>

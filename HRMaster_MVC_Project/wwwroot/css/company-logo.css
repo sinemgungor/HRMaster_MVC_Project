@@ -1,0 +1,14 @@
+﻿
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.logo-container img {
+    border-radius: 50%; /* Bu değer logoyu tam bir daire yapar */
+    object-fit: cover; /* Logonun alanı doldurması için */
+}
+
+

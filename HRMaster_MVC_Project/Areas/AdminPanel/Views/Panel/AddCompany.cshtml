@@ -1,0 +1,116 @@
+﻿@using HRMaster_MVC_Project.Models.Enums
+@using HRMaster_MVC_Project.Models.ViewModels
+@model CompanyVM
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/AdminStyle.css" />
+}
+
+
+@if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-ban"></i> Uyarı!</h5>
+        @ViewData["Error"]
+    </div>
+}
+
+<div class="container mt-1">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">YENİ ŞİRKET EKLE</h2>
+            <form asp-action="AddCompany" method="post" enctype="multipart/form-data">                
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyName">Şirket Adı</label>
+                    <input asp-for="CompanyName" type="text" class="form-control" id="companyName" placeholder="Şirket Adı'nı Gir" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>                
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyTitle">Şirket Ünvanı</label>
+                    <input asp-for="CompanyTitle" type="text" class="form-control" id="compantTitle" placeholder="Şirket Ünvanı'nı Gir" />
+                    <span asp-validation-for="CompanyTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="LogoPath">Şirket Logosu</label>
+                    <input asp-for="LogoPath" type="file" class="form-control" id="logoPath" placeholder="Logo Ekle" />
+                    <span asp-validation-for="LogoPath" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="MersisNumber">Mersis Numarası</label>
+                    <input asp-for="MersisNumber" type="text" class="form-control" id="mersisNumber" placeholder="Mersis Numarası'nı Gir" />
+                    <span asp-validation-for="MersisNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="TaxOfficeName">Vergi Dairesi Adı</label>
+                    <input asp-for="TaxOfficeName" type="text" class="form-control" id="taxOfficeName" placeholder="Vergi Dairesi Adı'nı Gir" />
+                    <span asp-validation-for="TaxOfficeName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="TaxIdentificaitonNumber">Vergi Kimlik Numarası</label>
+                    <input asp-for="TaxIdentificaitonNumber" type="text" class="form-control" id="taxIdentificationNumber" placeholder="Vergi Kimlik Numaras'ını Gir" />
+                    <span asp-validation-for="TaxIdentificaitonNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyAddress">Şirket Adresi</label>
+                    <input asp-for="CompanyAddress" type="text" class="form-control" id="companyAddress" placeholder="Şirket Adres'ini Gir" />
+                    <span asp-validation-for="CompanyAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyPhoneNumber">Şirket Telefon Numarası</label>
+                    <input asp-for="CompanyPhoneNumber" type="text" class="form-control" id="companyPhoneNumber" placeholder="Şirket Telefon Numaras'ını Gir" />
+                    <span asp-validation-for="CompanyPhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyEmail">Şirket Email</label>
+                    <input asp-for="CompanyEmail" type="email" class="form-control" id="companyEmail" placeholder="Şirket Email'ini Gir" />
+                    <span asp-validation-for="CompanyEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyWebsite">Şirket Website</label>
+                    <input asp-for="CompanyWebsite" type="url" class="form-control" id="companyWebsite" placeholder="Şirket Website'sini Gir" />
+                    <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyType">Şirket Tipi</label>
+                    <select asp-for="CompanyType" class="form-control select2" asp-items="Html.GetEnumSelectList<CompanyType>()" id="companyType">
+                    </select>
+                    <span asp-validation-for="CompanyType" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CompanyField">Şirket Alanı</label>
+                    <select asp-for="CompanyField" class="form-control select2" asp-items="Html.GetEnumSelectList<CompanyField>()" id="companyField">
+
+                    </select>
+                    <span asp-validation-for="CompanyField" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="EstablishedDate">Kuruluş Tarihi</label>
+                    <input asp-for="EstablishedDate" type="date" class="form-control" id="establishedDate" />
+                    <span asp-validation-for="EstablishedDate" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="ContractStartingDate">Sözleşme Başlangıç Tarihi</label>
+                    <input asp-for="ContractStartingDate" type="date" class="form-control" id="contractStartingDate" />
+                    <span asp-validation-for="ContractStartingDate" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="ContractEndDate">Sözleşme Bitiş Tarihi</label>
+                    <input asp-for="ContractEndDate" type="date" class="form-control" id="contractEndDate" />
+                    <span asp-validation-for="ContractEndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="CompanyInformation">Şirket bilgileri</label>
+                    <textarea asp-for="CompanyInformation" class="form-control" id="companyInformation" rows="4" placeholder="Şirket bilgileri'ni Gir"></textarea>
+                    <span asp-validation-for="CompanyInformation" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-outline-success w-100">Ekle</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/date.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

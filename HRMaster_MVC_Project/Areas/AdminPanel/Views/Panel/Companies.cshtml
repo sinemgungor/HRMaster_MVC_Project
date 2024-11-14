@@ -1,0 +1,46 @@
+﻿@using HRMaster_MVC_Project.Areas.AdminPanel.Models.AdminViewModels
+@model List<ShowCompanyVM>
+@section Styles {
+    <link rel="stylesheet" href="~/css/company-logo.css" />
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="row col-9">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-check"></i> İşlem Başarılı!</h5>
+            @TempData["Success"]
+        </div>
+    </div>
+}
+
+<div class="card-body pb-0">
+    <div class="row d-flex align-items-stretch">
+        @foreach (var company in Model)
+        {
+            <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" onclick="window.location='@Url.Action("CompanyDetails", new { id = company.ID })';" style="cursor: pointer;">
+                <div class="card bg-light" style="width: 26rem; height: 14rem;">
+                    <div class="card-header text-muted border-bottom-0">
+                        
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="lead"><b>@company.CompanyName</b></h2>
+                                <p class="text-muted text-sm"><b>About:</b>
+                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Email: @company.CompanyEmail</li>
+                                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone @company.CompanyPhoneNumber</li>
+                                </ul>
+                            </div>
+                            <div class="col-5 text-center">
+                                <img src="~/Images/Logos/@company.LogoPath" alt="Company Logo" class="img-circle img-fluid" style="max-width: 100px; max-height: 100px;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

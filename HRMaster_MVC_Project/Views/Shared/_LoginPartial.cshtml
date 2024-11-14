@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userRole = HttpContextAccessor.HttpContext.Session.GetString("UserRole");
+}
+
+
+@if (userRole == "SuperAdmin")
+{
+    <form asp-area="" asp-controller="Login" asp-action="Logout" method="post">
+        <button style="cursor:pointer; color:white" type="submit" class="animsition-link">Çıkış</button>
+    </form>
+
+
+}
+else if (userRole == "Manager")
+{
+
+    <form asp-area="" asp-controller="Login" asp-action="Logout" method="post">
+        <button style="cursor:pointer; color:white" type="submit" class="animsition-link">Çıkış</button>
+    </form>
+}
+else if (userRole == "Employee")
+{
+
+    <form asp-area="" asp-controller="Login" asp-action="Logout" method="post">
+        <button style="cursor:pointer; color:white" type="submit" class="animsition-link">Çıkış</button>
+    </form>
+}
+else
+{
+    @* <form asp-area="" asp-controller="Login" asp-action="Login" method="get">
+        <button type="submit" class="btn btn-light">Giriş Yap</button>
+    </form> *@
+        @* <a asp-area="" asp-controller="Login" asp-action="Login" class="btn btn-light">Giriş Yap</a> *@
+    <a style="cursor:pointer; color:white"asp-area="" asp-controller="Login" asp-action="Login" class="animsition-link">GİRİŞ</a>
+}

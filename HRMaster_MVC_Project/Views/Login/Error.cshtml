@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Hata";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="alert alert-danger">
+    <h4 class="alert-heading">Bir Hata Oluştu</h4>
+    <p>E-posta doğrulamanız sırasında bir sorun meydana geldi. Lütfen daha sonra tekrar deneyin.</p>
+    <hr>
+    <p class="mb-0">Yardım almak için <a href="@Url.Action("Contact", "Home")">buraya tıklayın</a>.</p>
+</div>

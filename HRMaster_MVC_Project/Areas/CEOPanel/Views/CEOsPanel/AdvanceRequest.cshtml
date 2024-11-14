@@ -1,0 +1,213 @@
+﻿@using HRMaster_MVC_Project.Areas.EmployeePanel.Models.ViewModels
+@using HRMaster_MVC_Project.Models.Enums
+@section Styles {
+    <link href="~/css/RequestPage.css" rel="stylesheet" />
+}
+@model AdvanceRequestPageVM
+@if (TempData["SuccessAdvance"] != null)
+{
+    <div class="row col-12">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-check"></i> İşlem Başarılı!</h5>
+            @TempData["SuccessAdvance"]
+        </div>
+    </div>
+}
+@if (TempData["SuccessAdvanceReject"] != null)
+{
+    <div class="row col-12">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-check"></i> İşlem Başarılı!</h5>
+            @TempData["SuccessAdvanceReject"]
+        </div>
+    </div>
+}
+@if (TempData["ErrorAdvance"] != null)
+{
+    <div class="row col-12">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Uyarı!</h5>
+            @TempData["ErrorAdvance"]
+        </div>
+    </div>
+}
+@if (TempData["ErrorAdvanceReject"] != null)
+{
+    <div class="row col-12">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Uyarı!</h5>
+            @TempData["ErrorAdvanceReject"]
+        </div>
+    </div>
+}
+<!-- Onaylama Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="approveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-success">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approveModalLabel">Onaylama İşlemi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bu avans talebini onaylamak istediğinize emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-outline-light" id="approveConfirmButton">Onayla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reddetme Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel">Reddetme İşlemi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bu avans talebini reddetmek istediğinize emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-outline-light" id="rejectConfirmButton">Reddet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Avans Talepleri</h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="filterTable2()">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Çalışan</th>
+                            <th>Avans Türü</th>
+                            <th>Avans Miktarı</th>
+                            <th>Açıklama</th>
+                            <th>Talep Tarihi</th>
+                            <th>Cevap Tarihi</th>
+                            <th>Onay Durumu</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.AdvanceRequests == null || !Model.AdvanceRequests.Any())
+                        {
+                            <tr>
+                                <td colspan="8">"Henüz bir avans talebi bulunmamaktadır!"</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.AdvanceRequests)
+                            {
+                                <tr>
+                                    <td>@item.Name @item.Surname</td>
+                                    <td>@item.AdvanceType.GetDisplayName()</td>
+                                    <td>@item.Amount @item.Currency</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.RequestDate</td>
+                                    <td>
+                                        @if (item.ResponseDate != null)
+                                        {
+                                            @item.ResponseDate
+                                        }
+                                        else
+                                        {
+                                            <span>Yanıt Bekleniyor!</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.ApprovalStatus == ApprovalStatus.Approved)
+                                        {
+                                            <div class="status bg-gradient-success"> @item.ApprovalStatus.GetDisplayName()</div>
+                                        }
+                                        else if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <div class="status bg-gradient-info"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                        else if (item.ApprovalStatus == ApprovalStatus.Rejected)
+                                        {
+                                            <div class="status bg-gradient-danger"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="status bg-gradient-secondary"><span>@item.ApprovalStatus.GetDisplayName()</span></div>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <button type="button" class="btn btn-block btn-outline-success" onclick="showApproveModal(@item.ID)">Onayla</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-block btn-outline-success disabled">Onayla</button>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.ApprovalStatus == ApprovalStatus.Pending)
+                                        {
+                                            <button type="button" class="btn btn-block btn-outline-danger" onclick="showRejectModal(@item.ID)">Reddet</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-block btn-outline-danger disabled">Reddet</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<script>
+    let approveUrl = '@Url.Action("ApproveAdvanceRequest", "CEOsPanel")';
+    let rejectUrl = '@Url.Action("RejectAdvanceRequest", "CEOsPanel")';
+</script>
+
+
+<script src="~/js/approval.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
