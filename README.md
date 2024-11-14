@@ -1,16 +1,24 @@
-Bu proje, şirketlerin çalışanlarını ve departmanlarını yönetmek amacıyla geliştirilmiş bir ASP.NET Core MVC uygulamasıdır. Uygulama, kullanıcı kimlik doğrulama, rol tabanlı erişim kontrolü, şirket yönetimi, departman yönetimi ve çalışan işlemleri gibi temel işlevleri sunmaktadır. Ayrıca, kullanıcılar dinamik olarak giriş yapabilir, şirket bilgilerini görüntüleyebilir ve yönetebilir, çalışan ekleyip güncelleyebilir.
+Bu proje, şirketlerin çalışanlarını ve departmanlarını yönetmek amacıyla geliştirilmiş bir ASP.NET Core MVC uygulamasıdır.
 
-Özellikler
-Kullanıcı Yönetimi: Şirket yöneticileri, çalışanları ve departmanları ekleyip güncelleyebilir.
-Şirket Yönetimi: Şirket bilgilerini yönetme, şirket logosu ve diğer temel bilgileri görüntüleme.
-Departman Yönetimi: Şirket içinde departmanlar oluşturulabilir ve her departman için bir yönetici atanabilir.
-Çalışan Yönetimi: Çalışan ekleyip güncelleme, fotoğraf ekleme ve departman ataması yapılabilir.
-Rol Tabanlı Erişim Kontrolü: Yönetici, CEO gibi farklı roller için özelleştirilmiş erişim seviyeleri.
 Teknolojiler
-ASP.NET Core MVC: Uygulamanın temel yapısı.
-Entity Framework Core: Veritabanı ile etkileşim için ORM.
-Session Management: Kullanıcı bilgileri ve logo gibi verilerin session'da saklanması.
-Identity Framework: Kullanıcı kimlik doğrulama ve rol yönetimi.
+ASP.NET Core MVC: Uygulama, ASP.NET Core MVC framework'ü kullanılarak geliştirilmiştir. Bu framework, güçlü bir web uygulaması geliştirme altyapısı sunar ve Model-View-Controller (MVC) mimarisini kullanarak, iş mantığını (model), kullanıcı arayüzünü (view) ve uygulama akışını (controller) birbirinden ayırır.
+
+Entity Framework Core (EF Core): Veritabanı işlemleri için Entity Framework Core (EF Core) kullanılmıştır. Bu ORM (Object-Relational Mapping) aracı, veritabanı işlemleriyle ilgili işleri kolaylaştırarak, veritabanı nesnelerini .NET sınıflarına dönüştürür. Proje, Code-First yaklaşımını benimseyerek veritabanı yapısını kod üzerinden tanımlar.
+
+Identity Framework: Kullanıcı kimlik doğrulaması ve rol yönetimi için ASP.NET Core Identity kullanılmıştır. Bu framework, kullanıcı kayıt işlemleri, giriş, parola sıfırlama gibi işlemleri yönetir ve kullanıcıları çeşitli rollere ayırarak güvenli erişim sağlar.
+
+Session Management: Kullanıcı bilgileri, özellikle logo gibi kullanıcıya özel veriler, Session yönetimi ile saklanmaktadır. Bu sayede, kullanıcı oturumu boyunca kişisel veriler erişilebilir olur.
+
+Bootstrap: Kullanıcı arayüzü tasarımı için Bootstrap CSS framework'ü kullanılmıştır. Bu sayede duyarlı (responsive) tasarımlar elde edilmiş ve uygulamanın farklı cihazlarda uyumlu çalışması sağlanmıştır.
+
+JavaScript & jQuery: Dinamik işlemler ve kullanıcı etkileşimleri için JavaScript ve jQuery kullanılmıştır. Bu, kullanıcıların sayfa yenilemeden çeşitli işlemler yapabilmesini sağlar.
+
+SQL Server: Veritabanı olarak Microsoft SQL Server kullanılmıştır. Veritabanı tasarımı ve veri yönetimi için EF Core üzerinden SQL Server ile entegrasyon sağlanmıştır.
+
+Dependency Injection (DI): ASP.NET Core'un sağladığı Dependency Injection (DI) altyapısı kullanılarak, uygulamanın bağımlılıkları yönetilmiş ve sistemin test edilebilirliği artırılmıştır.
+
+Middleware: Kimlik doğrulama, hata yönetimi ve diğer süreçler için Middleware yapıları kullanılmıştır. Bu, uygulamanın esnekliğini artırarak, farklı işlemlerin merkezi bir noktada yönetilmesini sağlar.
+
 
 Admin Paneli Özellikleri
 Profil Görüntüleme ve Güncelleme: Admin kullanıcıları, kendilerine ait profil bilgilerini görebilir ve güncelleyebilir.
